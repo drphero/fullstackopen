@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Total = ({ parts }) => {
+const Total = ({ course: { parts } }) => {
   return (
     <>
       <p>
