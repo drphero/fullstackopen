@@ -3,24 +3,29 @@ import ReactDOM from 'react-dom';
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
-  let avg = 0,
-    pos = 0;
+  const avg = (good - bad) / total;
+  const pos = good / total;
 
-  if (total !== 0) {
-    avg = (good - bad) / total;
-    pos = good / total;
+  if (total === 0) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {avg}</p>
+        <p>positive {pos} %</p>
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {avg}</p>
-      <p>positive {pos} %</p>
-    </div>
-  );
 };
 
 const App = () => {
