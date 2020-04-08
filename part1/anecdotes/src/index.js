@@ -4,24 +4,34 @@ import ReactDOM from 'react-dom';
 const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
+  const [most, setMost] = useState(0);
 
   const handleNextClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length));
   };
 
   const handleVoteClick = () => {
+    // make mutable copy of points array
     const copy = [...points];
+    // update copy of points array
     copy.splice(selected, 1, points[selected] + 1);
+    // get highest point amount
+    const max = Math.max(...copy);
+    // set index with the highest points
+    setMost(copy.indexOf(max));
+    // set updated points array
     setPoints(copy);
-    console.log(copy);
   };
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <div>{anecdotes[selected]}</div>
       <p>has {points[selected]} votes</p>
       <button onClick={handleVoteClick}>vote</button>
       <button onClick={handleNextClick}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[most]}</p>
     </div>
   );
 };
