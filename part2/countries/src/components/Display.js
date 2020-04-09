@@ -1,33 +1,37 @@
 import React from 'react';
 import Country from './Country';
 
-const Display = ({ filter, countries }) => {
-  if (filter !== '') {
-    const filterCountries = countries.filter((country) =>
-      country.name.toLowerCase().includes(filter.toLowerCase())
-    );
+const Display = ({ filter, setFilter, countries }) => {
+  const filterCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
-    if (filterCountries.length < 10 && filterCountries.length > 1) {
-      return (
-        <div>
-          {filterCountries.map((country) => (
-            <div key={country.numericCode}>{country.name}</div>
-          ))}
+  const lessThanTen = () => (
+    <div>
+      {filterCountries.map((country) => (
+        <div key={country.numericCode}>
+          {country.name}
+          <button onClick={() => setFilter(country.name)}>show</button>
         </div>
-      );
-    } else if (filterCountries.length === 1) {
-      return (
-        <div>
-          <Country country={filterCountries[0]} />
-        </div>
-      );
-    } else if (filterCountries.length === 0) {
-      return <div>No results...</div>;
-    } else {
-      return <div>Too many matches, specify another filter</div>;
-    }
-  }
-  return <div></div>;
+      ))}
+    </div>
+  );
+
+  const result = () => (
+    <div>
+      <Country country={filterCountries[0]} />
+    </div>
+  );
+
+  return filter === '' ? null : filterCountries.length > 10 ? (
+    <div>Too many matches, specify another filter</div>
+  ) : filterCountries.length > 1 ? (
+    lessThanTen()
+  ) : filterCountries.length === 1 ? (
+    result()
+  ) : (
+    <div>No results...</div>
+  );
 };
 
 export default Display;

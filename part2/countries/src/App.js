@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       <Filter filter={filter} setFilter={setFilter} />
-      <Display filter={filter} countries={countries} />
+      <Display filter={filter} setFilter={setFilter} countries={countries} />
     </div>
   );
 }
