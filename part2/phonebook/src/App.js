@@ -10,8 +10,15 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPersons(persons.concat({ name: newName }));
-    setNewName('');
+
+    const testForName = persons.map((person) => person.name).indexOf(newName);
+
+    if (testForName !== -1) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      setPersons(persons.concat({ name: newName }));
+      setNewName('');
+    }
   };
 
   return (
