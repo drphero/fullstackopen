@@ -15,7 +15,7 @@ const Weather = ({ city }) => {
       });
   }, [api_key, city]);
 
-  if (weather) {
+  if (weather && city) {
     return (
       <div>
         <h2>Weather in {city}</h2>
