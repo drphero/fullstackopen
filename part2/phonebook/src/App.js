@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import personService from './services/persons';
 import PersonForm from './components/PersonForm';
-import Persons from './components/Persons';
+import Person from './components/Person';
 import Filter from './components/Filter';
 
 function App() {
@@ -21,6 +20,14 @@ function App() {
 
   const onChange = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
+  };
+
+  const onDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService.remove(person.id).then(() => {
+        setPersons(persons.filter((p) => p.id !== person.id));
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -58,7 +65,13 @@ function App() {
         onChange={onChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={display} />
+      {display.map((person) => (
+        <Person
+          key={person.id}
+          person={person}
+          onDelete={() => onDelete(person)}
+        />
+      ))}
     </div>
   );
 }
