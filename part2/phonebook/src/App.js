@@ -37,9 +37,7 @@ function App() {
       .map((person) => person.name)
       .indexOf(contact.name);
 
-    if (testForName !== -1) {
-      alert(`${contact.name} is already added to phonebook`);
-    } else {
+    if (testForName === -1) {
       personService.create(contact).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
         setContact({
@@ -47,6 +45,21 @@ function App() {
           number: '',
         });
       });
+    } else if (
+      window.confirm(
+        `${contact.name} is already added to the phonebook, replace the old number with a new one?`
+      )
+    ) {
+      const personToUpdate = persons.filter((p) => p.name === contact.name)[0];
+      personService
+        .update(personToUpdate.id, contact)
+        .then((returnedPerson) => {
+          setPersons(
+            persons.map((p) =>
+              p.id !== personToUpdate.id ? p : returnedPerson
+            )
+          );
+        });
     }
   };
 
