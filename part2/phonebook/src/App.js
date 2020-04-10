@@ -3,8 +3,10 @@ import personService from './services/persons';
 import PersonForm from './components/PersonForm';
 import Person from './components/Person';
 import Filter from './components/Filter';
+import Notification from './components/Notification';
 
 function App() {
+  const [message, setMessage] = useState(null);
   const [persons, setPersons] = useState([]);
   const [filter, setFilter] = useState('');
   const [contact, setContact] = useState({
@@ -44,6 +46,10 @@ function App() {
           name: '',
           number: '',
         });
+        setMessage(`Added ${returnedPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     } else if (
       window.confirm(
@@ -59,6 +65,14 @@ function App() {
               p.id !== personToUpdate.id ? p : returnedPerson
             )
           );
+          setContact({
+            name: '',
+            number: '',
+          });
+          setMessage(`Updated ${returnedPerson.name}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
     }
   };
@@ -70,6 +84,7 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter filter={filter} setFilter={setFilter} />
       <h2>add a new</h2>
       <PersonForm
