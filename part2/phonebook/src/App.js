@@ -46,7 +46,7 @@ function App() {
           name: '',
           number: '',
         });
-        setMessage(`Added ${returnedPerson.name}`);
+        setMessage({ msg: `Added ${returnedPerson.name}`, type: 'success' });
         setTimeout(() => {
           setMessage(null);
         }, 5000);
@@ -69,7 +69,19 @@ function App() {
             name: '',
             number: '',
           });
-          setMessage(`Updated ${returnedPerson.name}`);
+          setMessage({
+            msg: `Updated ${returnedPerson.name}`,
+            type: 'success',
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setMessage({
+            msg: `${personToUpdate.name} was already deleted`,
+            type: 'error',
+          });
           setTimeout(() => {
             setMessage(null);
           }, 5000);
