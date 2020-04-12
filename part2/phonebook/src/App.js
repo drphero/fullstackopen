@@ -40,17 +40,29 @@ function App() {
       .indexOf(contact.name);
 
     if (testForName === -1) {
-      personService.create(contact).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setContact({
-          name: '',
-          number: '',
+      personService
+        .create(contact)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setContact({
+            name: '',
+            number: '',
+          });
+          setMessage({ msg: `Added ${returnedPerson.name}`, type: 'success' });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          setMessage({
+            msg: error.response.data.error,
+            type: 'error',
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
-        setMessage({ msg: `Added ${returnedPerson.name}`, type: 'success' });
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
     } else if (
       window.confirm(
         `${contact.name} is already added to the phonebook, replace the old number with a new one?`
